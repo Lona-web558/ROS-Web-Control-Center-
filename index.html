@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ROS Web Control Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <span class="navbar-brand"><i class="bi bi-robot"></i> ROS Web Control Center</span><span id="connection" class="badge text-bg-success">ROS CONNECTED</span>
+        </div>
+    </nav>
+    <main class="container-fluid py-3"><div class="row g-3">
+        <div class="col-xl-8">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between">
+                    <strong>Robot Control</strong><span class="small">ROS 2 Jazzy</span>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-7">
+                            <div class="map" id="map">
+                                <div class="grid"></div>
+                                <div id="robot" class="robot">
+                                    <i class="bi bi-robot"></i>
+                                </div>
+                                <span class="map-label home">HOME</span><span class="map-label goal">GOAL</span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <h6>Control Mode</h6><div class="btn-group w-100 mb-3">
+                                <button class="btn btn-success mode" data-mode="AUTO">AUTO</button><button class="btn btn-outline-primary mode" data-mode="MANUAL">MANUAL</button><button class="btn btn-outline-secondary mode" data-mode="STOP">STOP</button>
+                            </div>
+                            <div class="d-grid gap-2 mb-3">
+                                <button id="estop" class="btn btn-danger btn-lg"><i class="bi bi-exclamation-octagon"></i> EMERGENCY STOP</button><button id="resume" class="btn btn-outline-success">Resume Control</button><button id="home" class="btn btn-outline-dark">Send HOME Goal</button>
+                            </div>
+                            <div class="manual-box">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <label class="form-label">Linear m/s</label><input id="linear" class="form-control" type="number" step="0.05" min="-1" max="1" value="0.3">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label">Angular rad/s</label><input id="angular" class="form-control" type="number" step="0.1" min="-2" max="2" value="0">
+                                    </div>
+                                </div>
+                                <button id="sendVel" class="btn btn-primary w-100 mt-2">Publish /cmd_vel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="metric">
+                            <small>Battery</small><strong id="battery">--%</strong>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="metric">
+                            <small>CPU</small><strong id="cpu">--%</strong>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="metric">
+                            <small>Memory</small><strong id="memory">--%</strong>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="metric">
+                            <small>Position</small><strong id="position">--</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow-sm mt-3">
+                    <div class="card-header">
+                        Velocity Telemetry
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        ROS Topics
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm align-middle mb-0">
+                            <thead>
+                                <tr><th>Topic</th><th>Type</th><th>Rate</th><th>Status</th></tr>
+                            </thead>
+                            <tbody id="topics"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        ROS Nodes
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm mb-0">
+                            <thead>
+                                <tr><th>Node</th><th>Status</th></tr>
+                            </thead>
+                            <tbody id="nodes"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        ROS Event Log
+                    </div>
+                    <div id="logs" class="log-box"></div>
+                </div>
+            </div>
+        </div>
+    </main><script src="app.js"></script>
+    </body>
+</html>
